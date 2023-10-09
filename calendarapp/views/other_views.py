@@ -9,7 +9,8 @@ import calendar
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy, reverse
-
+from django.http import JsonResponse
+from django.shortcuts import get_object_or_404
 
 from calendarapp.models import EventMember, Event
 from calendarapp.utils import Calendar
@@ -150,3 +151,13 @@ class CalendarViewNew(LoginRequiredMixin, generic.View):
             return redirect("calendarapp:calendar")
         context = {"form": forms}
         return render(request, self.template_name, context)
+
+
+
+def delete_event(request, event_id):
+    event = get_object_or_404(Event, id=event_id)
+    if request.method == 'POST':
+        event.delete()
+        return JsonResponse({'message': 'Evento excluído com sucesso.'})
+    else:
+        return JsonResponse({'message': 'Método inválido para esta view.'}, status=400)

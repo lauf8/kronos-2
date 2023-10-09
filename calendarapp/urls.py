@@ -9,6 +9,8 @@ urlpatterns = [
     path("calender/", views.CalendarViewNew.as_view(), name="calendar"),
     path("calenders/", views.CalendarView.as_view(), name="calendars"),
     path("calenders/delete/<int:pk>", views.EventDeleteView.as_view(), name="delete_event"),
+    path('delete_event/<int:event_id>/', views.delete_event, name='delete_event'),
+
     
 
     path("event/new/", views.create_event, name="event_new"),
