@@ -110,6 +110,12 @@ class EventMemberDeleteView(generic.DeleteView):
     success_url = reverse_lazy("calendarapp:calendar")
 
 
+class EventDeleteView(generic.DeleteView):
+    model = Event
+    template_name = "calendarapp/calendar.html"
+    # success_url = reverse_lazy("calendarapp:calendar")
+
+
 class CalendarViewNew(LoginRequiredMixin, generic.View):
     login_url = "accounts:signin"
     template_name = "calendarapp/calendar.html"
