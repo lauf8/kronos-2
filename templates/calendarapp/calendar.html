@@ -122,6 +122,17 @@
 {% block extrascripts %}
   <script src="{% static 'calender/main.js' %}"></script>
   <script>
+    function converterDataParaDjangoFormat(data) {
+        const dataJS = new Date(data);
+        const ano = dataJS.getFullYear();
+        const mes = (dataJS.getMonth() + 1).toString().padStart(2, '0');
+        const dia = dataJS.getDate().toString().padStart(2, '0');
+        const hora = dataJS.getHours().toString().padStart(2, '0');
+        const minuto = dataJS.getMinutes().toString().padStart(2, '0');
+        const segundo = dataJS.getSeconds().toString().padStart(2, '0');
+        const formatoDjango = `${ano}-${mes}-${dia} ${hora}:${minuto}:${segundo}`;
+        return formatoDjango;
+    }
       document.addEventListener('DOMContentLoaded', function() {
         var calendarEl = document.getElementById('calendar');
         var today = new Date();
@@ -130,7 +141,7 @@
           headerToolbar: {
             left: 'prev,next today',
             center: 'title',
-            right: 'dayGridMonth,timeGridWeek,timeGridDay,list'
+            right: 'dayGridMonth,timeGridWeek,timeGridDay,dayGridDay'
           },
           initialDate: today,
           navLinks: true, // can click day/week names to navigate views
@@ -138,8 +149,12 @@
           selectMirror: true,
           select: function(arg) {
             console.log('clicked')
+            console.log(arg.start)
+            console.log(arg.end)
             var modal = document.getElementById('eventModal')
             modal.style.display = 'block'
+            document.getElementById('id_start_time').value = converterDataParaDjangoFormat(arg.start);
+            document.getElementById('id_end_time').value = converterDataParaDjangoFormat(arg.end);
             calendar.unselect()
           },
           
