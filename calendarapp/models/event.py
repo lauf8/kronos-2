@@ -24,7 +24,6 @@ class EventManager(models.Manager):
 
 
 class Event(EventAbstract):
-    """ Event model """
 
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="events")
     title = models.CharField(max_length=200, unique=True)
