@@ -1,11 +1,11 @@
 from django.forms import ModelForm, DateInput
-from routine.models import RoutineEvents
+from routine.models import RoutineEvent
 from django import forms
 
 
 class RoutineEventsForm(ModelForm):
     class Meta:
-        model = RoutineEvents
+        model = RoutineEvent
         fields = ["title", "description", "start_time", "end_time"]
         # datetime-local is a HTML5 input type
         widgets = {

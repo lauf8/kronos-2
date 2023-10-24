@@ -110,13 +110,6 @@ class EventMemberDeleteView(generic.DeleteView):
     template_name = "event_delete.html"
     success_url = reverse_lazy("calendarapp:calendar")
 
-
-class EventDeleteView(generic.DeleteView):
-    model = Event
-    template_name = "calendarapp/calendar.html"
-    # success_url = reverse_lazy("calendarapp:calendar")
-
-
 class CalendarViewNew(LoginRequiredMixin, generic.View):
     login_url = "accounts:signin"
     template_name = "calendarapp/calendar.html"
@@ -158,6 +151,31 @@ def delete_event(request, event_id):
     event = get_object_or_404(Event, id=event_id)
     if request.method == 'POST':
         event.delete()
-        return JsonResponse({'message': 'Evento excluído com sucesso.'})
+        return JsonResponse({'message': 'Event sucess delete.'})
     else:
-        return JsonResponse({'message': 'Método inválido para esta view.'}, status=400)
+        return JsonResponse({'message': 'Error!'}, status=400)
+
+def next_week(request, event_id):
+    event = get_object_or_404(Event, id=event_id)
+    if request.method == 'POST':
+        next = event
+        next.id = None
+        next.start_time += timedelta(days=7)
+        next.end_time += timedelta(days=7)
+        next.save()
+        return JsonResponse({'message': 'Sucess!'})
+    else:
+        return JsonResponse({'message': 'Error!'}, status=400)
+
+def next_day(request, event_id):
+
+    event = get_object_or_404(Event, id=event_id)
+    if request.method == 'POST':
+        next = event
+        next.id = None
+        next.start_time += timedelta(days=1)
+        next.end_time += timedelta(days=1)
+        next.save()
+        return JsonResponse({'message': 'Sucess!'})
+    else:
+        return JsonResponse({'message': 'Error!'}, status=400)
