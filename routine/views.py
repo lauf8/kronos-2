@@ -1,6 +1,6 @@
 from datetime import timedelta
 from django.shortcuts import render, redirect, get_object_or_404
-from django.http import HttpResponseRedirect, JsonResponse
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.views import generic
 from django.utils.safestring import mark_safe
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -60,7 +60,7 @@ class RoutineView(LoginRequiredMixin, generic.View):
                 }
             )
         
-        context = {"form": forms, "events": event_list}
+        context = {"form": forms, "events": event_list, "routine" : routine}
         return render(request, self.template_name, context)
 
     def post(self, request,routine, *args, **kwargs):
@@ -87,3 +87,24 @@ def next(request, event_id,days):
         return JsonResponse({'message': 'Sucess!'})
     else:
         return JsonResponse({'message': 'Error!'}, status=400)
+
+def clone(request,pk):
+    routine = get_object_or_404(Routine, pk=pk)
+    if request.method == 'POST':
+        events = RoutineEvent.objects.filter(routine=routine).all()
+        new_routine = Routine()
+        routine_name = 'Clone ' + routine.name
+        new_routine.name = routine_name
+        new_routine.user = request.user
+        new_routine.save()
+        for event in events:
+            new_event_routine = RoutineEvent()
+            new_event_routine.title = event.title
+            new_event_routine.description = event.description
+            new_event_routine.start_time = event.start_time
+            new_event_routine.end_time = event.end_time
+            new_event_routine.routine = new_routine
+            new_event_routine.save()
+            
+    return HttpResponse("")
+    
