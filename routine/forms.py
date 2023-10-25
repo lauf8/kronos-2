@@ -1,5 +1,5 @@
 from django.forms import ModelForm, DateInput
-from routine.models import RoutineEvent
+from routine.models import RoutineEvent,Routine
 from django import forms
 
 
@@ -35,4 +35,9 @@ class RoutineEventsForm(ModelForm):
         self.fields["start_time"].input_formats = ("%Y-%m-%dT%H:%M",)
         self.fields["end_time"].input_formats = ("%Y-%m-%dT%H:%M",)
 
+
+class RoutineForm(forms.Form):
+    name = forms.CharField(max_length=115)
+    privacy = forms.BooleanField()
+    
 

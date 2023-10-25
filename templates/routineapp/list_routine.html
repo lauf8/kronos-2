@@ -1,0 +1,69 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% block title %}Event Calendar{% endblock title %}
+
+{% block extracss %}
+  <link href="{% static 'calender/main.css' %}" rel="stylesheet" />
+{% endblock extracss %}
+
+{% block breadcrumb %}
+  <div>
+      <h1><i class="fa fa-calendar"></i> Calendar</h1>
+      <p>Event Calendar</p>
+  </div>
+  <ul class="app-breadcrumb breadcrumb">
+      <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
+      <li class="breadcrumb-item"><a href="#">Calendar</a></li>
+  </ul>
+{% endblock breadcrumb %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        <div class="tile row">
+            
+            <div class="col-md-12">
+                <div class= "row">
+                    <div class="col-md-9">
+                    <h1>
+                        Routines
+                    </h1>
+                </div>
+                <div class="col-md-3">
+                    <a href="{% url 'routineapp:create_routine' %}" class="btn btn-success"> 
+                        New Routine</a>
+                    </div>
+
+
+                </div>
+                <table class="table table-striped">
+                    <thead>
+                      <tr>
+                        <th>Name</th>
+                        <th>Privacy</th>
+                        <th></th>
+                  
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for routine in routines %}
+                      <tr>
+                        <td>{{routine.name}}</td>
+                        <td>{{routine.privacy}}</td>
+
+                        <td><a href="{% url 'routineapp:routine' routine.pk %}" class="btn btn-warning"> 
+                          Show</a></td>
+                      </tr>
+                      {% endfor %}
+            </div>
+            
+
+            
+    </div>
+</div>
+{% endblock content %}
+
+
+{% block extrascripts %}
+{% endblock extrascripts %}
+

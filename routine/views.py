@@ -5,7 +5,37 @@ from django.views import generic
 from django.utils.safestring import mark_safe
 from django.contrib.auth.mixins import LoginRequiredMixin
 from routine.models import RoutineEvent, Routine
-from routine.forms import RoutineEventsForm
+from routine.forms import RoutineEventsForm,RoutineForm
+
+
+def list_routine(request):
+    routine = Routine.objects.filter(user=request.user).all()
+    context = {
+        'routines' : routine
+    }
+    
+    return render(request,'routineapp/list_routine.html',context)
+
+def create_routine(request):
+    if request.method == "POST":
+        form = RoutineForm(request.POST)
+        if form.is_valid():
+            name = form.cleaned_data['name']
+            privacy = form.cleaned_data['privacy']
+            routine = Routine()
+            routine.name = name
+            routine.privacy = privacy
+            routine.user = request.user
+            routine.save()
+            #return redirect('listar_locacoes_em_andamento')
+
+    else:
+        form = RoutineForm()
+
+    context = {
+        "form": form
+    }
+    return render(request, 'routineapp/create_routine.html', context)
 
 
 class RoutineView(LoginRequiredMixin, generic.View):
