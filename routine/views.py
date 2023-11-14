@@ -21,13 +21,13 @@ def create_routine(request):
         form = RoutineForm(request.POST)
         if form.is_valid():
             name = form.cleaned_data['name']
-            privacy = form.cleaned_data['privacy']
+            private = form.cleaned_data['private']
             routine = Routine()
             routine.name = name
-            routine.privacy = privacy
+            routine.private = private
             routine.user = request.user
             routine.save()
-            #return redirect('listar_locacoes_em_andamento')
+        return redirect('routineapp:list_routine')
 
     else:
         form = RoutineForm()
@@ -105,6 +105,8 @@ def clone(request,pk):
             new_event_routine.end_time = event.end_time
             new_event_routine.routine = new_routine
             new_event_routine.save()
+        
+        return redirect('routineapp:list_routine')
             
     return HttpResponse("")
     

@@ -6,7 +6,7 @@ from accounts.models import User
 class Routine(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="routine")
     name = models.CharField(max_length=75)
-    privacy = models.BooleanField(default=True)
+    private = models.BooleanField(default=False)
 
 class RoutineEvent(Tracker):
     routine_event_id = models.AutoField(primary_key=True)

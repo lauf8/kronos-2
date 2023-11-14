@@ -37,7 +37,5 @@ class RoutineEventsForm(ModelForm):
 
 
 class RoutineForm(forms.Form):
-    name = forms.CharField(max_length=115)
-    privacy = forms.BooleanField()
-    
-
+    name = forms.CharField(widget=forms.TextInput(attrs={"class": "form-control"}))
+    private = forms.BooleanField(required=False,widget=forms.CheckboxInput(attrs={"class": "form-check-label"}))

@@ -49,7 +49,14 @@
                       {% for routine in routines %}
                       <tr>
                         <td>{{routine.name}}</td>
-                        <td>{{routine.privacy}}</td>
+                        <td>
+                          {% if routine.private == 0 %}
+                          Public
+                          {% elif routine.private == 1 %}
+                          Private
+                          {% endif %}
+                          
+                        </td>
 
                         <td><a href="{% url 'routineapp:routine' routine.pk %}" class="btn btn-warning"> 
                           Show</a></td>
