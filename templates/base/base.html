@@ -28,7 +28,7 @@
     <body class="app sidebar-mini">
         <!-- Navbar-->
         <header class="app-header">
-            <a class="app-header__logo" href="#">Event Calendar</a>
+            <a class="app-header__logo" href="#">Kronos</a>
             <!-- Sidebar toggle button-->
             <a class="app-sidebar__toggle" href="#" data-toggle="sidebar" aria-label="Hide Sidebar"></a>
             <!-- Navbar Right Menu-->
@@ -136,10 +136,9 @@
         <div class="app-sidebar__overlay" data-toggle="sidebar"></div>
         <aside class="app-sidebar">
             <div class="app-sidebar__user">
-                <img class="app-sidebar__user-avatar" src="https://sajib1066.github.io/images/me.jpg" alt="User Image" height="50px" width="50px"/>
+                <img class="app-sidebar__user-avatar" src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/Windows_10_Default_Profile_Picture.svg/768px-Windows_10_Default_Profile_Picture.svg.png?20221210150350" alt="User Image" height="50px" width="50px"/>
                 <div>
-                    <p class="app-sidebar__user-name">Sajib Hossain</p>
-                    <p class="app-sidebar__user-designation">Software Engineer</p>
+                    <p class="app-sidebar__user-name">{{ user.get_username }}</p>
                 </div>
             </div>
             <ul class="app-menu">
@@ -150,7 +149,10 @@
                     <a class="app-menu__item" href="{% url 'calendarapp:calendar' %}"><i class="app-menu__icon fa fa-calendar"></i><span class="app-menu__label">Calendar</span></a>
                 </li>
                 <li>
-                    <a class="app-menu__item" href="{% url 'routineapp:list_routine' %}"><i class="app-menu__icon fa fa-book"></i><span class="app-menu__label">Routines</span></a>
+                    <a class="app-menu__item" href="{% url 'routineapp:list_routine' %}"><i class="app-menu__icon fa fa-calendar-plus-o"></i><span class="app-menu__label">Routines</span></a>
+                </li>
+                <li>
+                    <a class="app-menu__item" href="{% url 'post:post' %}"><i class="app-menu__icon fa fa-book"></i><span class="app-menu__label">Posts</span></a>
                 </li>
                 <li class="treeview">
                     <a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-th-list"></i><span class="app-menu__label">Events</span><i class="treeview-indicator fa fa-angle-right"></i></a>

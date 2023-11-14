@@ -1,10 +1,12 @@
 from django.db import models
 from accounts.models.user import User
-
-class Post(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+from routine.models import Routine
+class Post(models.Model):  
+    title = models.CharField(max_length=150)
     text = models.TextField()
     rating = models.IntegerField()
+    routine = models.ForeignKey(Routine, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
 
 class Comment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
