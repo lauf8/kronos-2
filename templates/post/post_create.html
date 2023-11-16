@@ -1,0 +1,190 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% block title %}Posts{% endblock title %}
+
+{% block extracss %}
+  <link href="{% static 'calender/main.css' %}" rel="stylesheet" />
+{% endblock extracss %}
+
+{% block breadcrumb %}
+  <div>
+      <h1><i class="fa fa-book"></i> Post</h1>
+      <p>Posts</p>
+  </div>
+  <ul class="app-breadcrumb breadcrumb">
+      <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
+      <li class="breadcrumb-item"><a href="#">Post</a></li>
+  </ul>
+{% endblock breadcrumb %}
+
+{% block content %}
+<body>
+    
+
+    </div>
+    <div class="container mt-5">
+        
+        <!-- Post Section -->
+        <div class="post card">
+            <form method="post">
+                
+                {% csrf_token %}
+                <div class="modal-body">
+                    <h1>New Post</h1>
+                    <h2>The routine: {{routine.name}}</h2>
+                    <div class="form-group">
+                        <label for="recipient-name" class="col-form-label">Post Title:</label>
+                        {{ form.title }}
+                    </div>
+                    <div class="form-group">
+                        <label for="message-text" class="col-form-label">Post Content:</label>
+                        {{ form.text }}
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button id="modalClose2" type="button" class="btn btn-danger">Close</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </form>
+        </div>
+    
+        <div class="post card">
+            <div class="card-body">
+                <h5 class="card-title">Routine</h5>
+                <div id="calendar"></div>
+            </div>
+        </div>
+        
+        <!-- Comments Section -->
+        <div class="mt-4">
+            <h5>Comments</h5>
+    
+            <!-- Single Comment -->
+            <div class="comment card">
+                <div class="card-body">
+                    <p class="card-text">Comment text goes here...</p>
+                </div>
+            </div>
+    
+            <!-- Add more comments as needed -->
+    
+            <!-- Comment Form -->
+            <form class="mt-3">
+                <div class="mb-3">
+                    <label for="commentInput" class="form-label">Add a Comment</label>
+                    <textarea class="form-control" id="commentInput" rows="3"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit Comment</button>
+            </form>
+        </div>
+    </div>
+    
+    
+   
+{% endblock content %}
+
+
+{% block extrascripts %}
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="{% static 'calender/main.js' %}"></script>
+<script>
+  
+    document.addEventListener('DOMContentLoaded', function() {
+      var calendarEl = document.getElementById('calendar');
+      var today = new Date();
+
+      var calendar = new FullCalendar.Calendar(calendarEl, {
+        headerToolbar: {
+          left: 'prev,next today',
+          center: 'title',
+          right: 'timeGridWeek,timeGridDay,dayGridDay'
+        },
+        initialView: 'timeGridWeek',
+        initialDate: today,
+        navLinks: false, // can click day/week names to navigate views
+        selectable: false,
+        selectMirror: false,
+        select: function(arg) {
+          console.log('clicked')
+          console.log(arg.start)
+          console.log(arg.end)
+          var modal = document.getElementById('eventModal')
+          modal.style.display = 'block'
+          document.getElementById('id_start_time').value = converterDataParaDjangoFormat(arg.start);
+          document.getElementById('id_end_time').value = converterDataParaDjangoFormat(arg.end);
+          calendar.unselect()
+        },
+        
+        // THIS KEY WON'T WORK IN PRODUCTION!!!
+        // To make your own Google API key, follow the directions here:
+        // http://fullcalendar.io/docs/google_calendar/
+        // googleCalendarApiKey: 'AIzaSyCqCxjjLtjbtkX37aOtWB8OfwBLy_6QuYk',
+
+        // bangladesh Holidays
+        // events: 'bn.bd#holiday@group.v.calendar.google.com',
+        eventClick: function(arg) {
+          
+          console.log('clicked')
+          var title = arg.event.title;
+          var start = formatDateTime(arg.event.start) ;
+          var end = formatDateTime(arg.event.end);
+          var description = arg.event.extendedProps.description || '';
+          var id = arg.event.id;
+
+          var modalInputEnd = document.getElementById('end_event_detail'); 
+
+          var modal = document.getElementById('detailModal')
+          var modalTitle = document.getElementById('title_event_detail'); 
+          var modalStart = document.getElementById('start_event_detail'); 
+          var modalEnd = document.getElementById('end_event_detail'); 
+          var modalDescripition = document.getElementById('description_event_detail'); 
+          var deleteButton = document.getElementById("delete-event-button");
+          var nextWeek = document.getElementById("add-to-next-week");
+          var nextDay = document.getElementById("add-to-next-day");
+
+          deleteButton.setAttribute("data-event-id", id);
+          nextWeek.setAttribute("data-event-id-week", id);
+          nextDay.setAttribute("data-event-id-day", id);
+          modal.style.display = 'block' 
+          
+          modalTitle.textContent = title;
+          modalStart.textContent = start;
+          modalEnd.textContent = end;
+          modalDescripition.textContent = description;
+          
+         
+          modal.style.display = 'block';
+        },
+        editable: true,
+        dayMaxEvents: true, // allow "more" link when too many events
+        events: {{ events|safe }},
+        // events: [
+        //   {
+        //     title: 'All Day Event',
+        //     start: '2021-06-26'
+        //   },
+        //   {
+        //     groupId: 999,
+        //     title: 'Repeating Event',
+        //     start: '2020-09-16T16:00:00'
+        //   },
+        //   {
+        //     title: 'Conference',
+        //     start: '2020-09-11',
+        //     end: '2020-09-13'
+        //   },
+        //   {
+        //     title: 'Click for Google',
+        //     url: 'http://google.com/',
+        //     start: '2020-09-28'
+        //   }
+        // ]
+      });
+
+      calendar.render();
+    });
+    
+</script>
+{% endblock extrascripts %}
+
+</body>

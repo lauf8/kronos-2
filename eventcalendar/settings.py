@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     "calendarapp.apps.CalendarappConfig",
     "accounts.apps.AccountsConfig",
     "routine",
+    "post",
 ]
 
 MIDDLEWARE = [

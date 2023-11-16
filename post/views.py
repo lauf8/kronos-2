@@ -6,6 +6,8 @@ from django.utils.safestring import mark_safe
 from django.contrib.auth.mixins import LoginRequiredMixin
 from routine.models import RoutineEvent, Routine
 from routine.forms import RoutineEventsForm,RoutineForm
+from post.forms import PostForm
+from post.models import Post
 
 
 def post(request):
@@ -13,15 +15,14 @@ def post(request):
 
 
 
-class PostCreate(LoginRequiredMixin, generic.View):
+class PostView(LoginRequiredMixin, generic.View):
     login_url = "accounts:signin"
-    template_name = ""
-    form_post = RoutineEventsForm
-    form_comment = RoutineEventsForm
+    template_name = "post/post_create.html"
+    form_post = PostForm
 
     
     def get(self, request,routine, *args, **kwargs,):
-        forms = self.form_class()
+        forms = self.form_post()
         routine = get_object_or_404(Routine, pk=routine)
         events = RoutineEvent.objects.filter(routine = routine)
         event_list = []
@@ -39,13 +40,17 @@ class PostCreate(LoginRequiredMixin, generic.View):
         return render(request, self.template_name, context)
 
     def post(self, request,routine, *args, **kwargs):
-        forms = self.form_class(request.POST)
-        if forms.is_valid():
-            form = forms.save(commit=False)
-            form.user = request.user
+        forms = self.form_post(request.POST)
+        if forms.form_post():
+            title = forms.cleaned_data['title']
+            text = forms.cleaned_data['text']
             routine = get_object_or_404(Routine, pk=routine)
-            form.routine = routine
-            form.save()
+            post_ = Post()
+            post_.routine = routine
+            post_.user = request.user
+            post_.text = text
+            post_.title = title
+            post_.save()
             return redirect('routineapp:routine',routine.pk)
         context = {"form": forms}
         return render(request, self.template_name, context)
