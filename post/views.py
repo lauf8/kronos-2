@@ -22,8 +22,11 @@ class PostCreateView(LoginRequiredMixin, generic.View):
 
     
     def get(self, request,routine, *args, **kwargs,):
+        
         forms = self.form_post()
         routine = get_object_or_404(Routine, pk=routine)
+        if routine.private == True:
+            return HttpResponse('Private Routine!')
         events = RoutineEvent.objects.filter(routine = routine).all()
         event_list = []
         for event in events:
@@ -37,6 +40,7 @@ class PostCreateView(LoginRequiredMixin, generic.View):
             )
         
         context = {"form": forms, "events": event_list, "routine" : routine}
+        
         return render(request, self.template_name, context)
 
     def post(self, request,routine, *args, **kwargs):
