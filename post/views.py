@@ -41,7 +41,7 @@ class PostView(LoginRequiredMixin, generic.View):
 
     def post(self, request,routine, *args, **kwargs):
         forms = self.form_post(request.POST)
-        if forms.form_post():
+        if forms.is_valid():
             title = forms.cleaned_data['title']
             text = forms.cleaned_data['text']
             routine = get_object_or_404(Routine, pk=routine)
@@ -50,6 +50,7 @@ class PostView(LoginRequiredMixin, generic.View):
             post_.user = request.user
             post_.text = text
             post_.title = title
+            post_.rating = 0
             post_.save()
             return redirect('routineapp:routine',routine.pk)
         context = {"form": forms}
