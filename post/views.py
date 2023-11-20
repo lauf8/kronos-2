@@ -86,10 +86,10 @@ class PostView(LoginRequiredMixin, generic.View):
     def post(self, request,post,*args, **kwargs):
         forms = self.form_post(request.POST)
         if forms.is_valid():
-            comment = forms.cleaned_data['comment']
+            text = forms.cleaned_data['text']
             post = get_object_or_404(Post, pk=post)
             comment = Comment()
-            comment.text = comment
+            comment.text = text
             comment.user = request.user
             comment.post = post
             comment.rating = 0
