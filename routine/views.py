@@ -109,4 +109,12 @@ def clone(request,pk):
         return redirect('routineapp:list_routine')
             
     return HttpResponse("")
-    
+
+
+def delete_event_routine(request,event):
+    event = get_object_or_404(RoutineEvent, pk=event)
+    if request.method == 'POST':
+        event.delete()
+        return JsonResponse({'message': 'Event sucess delete.'})
+    else:
+        return JsonResponse({'message': 'Error!'}, status=400)
