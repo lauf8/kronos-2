@@ -15,3 +15,6 @@ class Comment(Tracker):
     rating = models.IntegerField()
     text = models.TextField()
 
+class RatingComment(Tracker):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    comment = models.ForeignKey(Comment, on_delete=models.CASCADE)

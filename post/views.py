@@ -7,7 +7,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from routine.models import RoutineEvent, Routine
 from routine.forms import RoutineEventsForm,RoutineForm
 from post.forms import PostForm, CommentForm
-from post.models import Post, Comment
+from post.models import Post, Comment, RatingComment
 
 
 def post(request):
@@ -98,6 +98,35 @@ class PostView(LoginRequiredMixin, generic.View):
             comment.post = post
             comment.rating = 0
             comment.save()
-            return redirect('post:post', post.pk )
+            return redirect('post:post', post.pk)
         context = {"form": forms}
         return render(request, self.template_name, context)
+
+def more_rating(request,comment_id):
+    comment = get_object_or_404(Comment, pk = comment_id)
+    rating = RatingComment.objects.filter(user=request.user,comment=comment).first()
+    if rating is None:
+        rating_comment = RatingComment()
+        rating_comment.user = request.user
+        rating_comment.comment = comment
+        rating_comment.save()
+        comment.rating += 1
+        comment.save()
+        return redirect('post:post', comment.post.pk)
+    else:
+        return HttpResponse('You make your choice!')
+
+
+def less_rating(request,comment_id):
+    comment = get_object_or_404(Comment, pk = comment_id)
+    rating = RatingComment.objects.filter(user=request.user,comment=comment).first()
+    if rating is None:
+        rating_comment = RatingComment()
+        rating_comment.user = request.user
+        rating_comment.comment = comment
+        rating_comment.save()
+        comment.rating -= 1
+        comment.save()
+        return redirect('post:post', comment.post.pk)
+    else:
+        return HttpResponse('You have already made your choice!')
