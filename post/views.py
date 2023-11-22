@@ -7,7 +7,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from routine.models import RoutineEvent, Routine
 from routine.forms import RoutineEventsForm,RoutineForm
 from post.forms import PostForm, CommentForm
-from post.models import Post, Comment, RatingComment
+from post.models import Post, Comment, RatingComment, RatingPost
 
 
 def post(request):
@@ -114,7 +114,7 @@ def more_rating(request,comment_id):
         comment.save()
         return redirect('post:post', comment.post.pk)
     else:
-        return HttpResponse('You make your choice!')
+        return HttpResponse('You have already made your choice!')
 
 
 def less_rating(request,comment_id):
@@ -128,5 +128,33 @@ def less_rating(request,comment_id):
         comment.rating -= 1
         comment.save()
         return redirect('post:post', comment.post.pk)
+    else:
+        return HttpResponse('You have already made your choice!')
+
+def more_rating_post(request,post_id):
+    post = get_object_or_404(Post, pk = post_id)
+    rating = RatingPost.objects.filter(user=request.user,post=post).first()
+    if rating is None:
+        rating_post = RatingPost()
+        rating_post.user = request.user
+        rating_post.post = post
+        rating_post.save()
+        post.rating += 1
+        post.save()
+        return redirect('post:post', post.pk)
+    else:
+        return HttpResponse('You have already made your choice!')
+
+def less_rating_post(request,post_id):
+    post = get_object_or_404(Post, pk = post_id)
+    rating = RatingPost.objects.filter(user=request.user,post=post).first()
+    if rating is None:
+        rating_post = RatingPost()
+        rating_post.user = request.user
+        rating_post.post = post
+        rating_post.save()
+        post.rating -= 1
+        post.save()
+        return redirect('post:post', post.pk)
     else:
         return HttpResponse('You have already made your choice!')

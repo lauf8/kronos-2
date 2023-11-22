@@ -30,9 +30,25 @@
                 <!-- Post Section -->
                 
                     <div class="card-body">
-                        <h3 class="card-title d-flex justify-content-center">{{post.title}}</h3>
+                        <div class="row">
+                            <div class="col-1">
+                                <div class="text-center d-flex flex-column">
+                                    <a class="btn" href="{% url 'post:more_rating_post' post.pk %}" onclick="avaliar('up')">
+                                        <i>+</i>
+                                    </a>
+                                    <span id="pontuacao" class="mx-2">{{post.rating}}</span>
+                                    <a class="btn" href="{% url 'post:less_rating_post' post.pk %}" onclick="avaliar('down')">
+                                        <i>-</i>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="col-11">
+                                <h3 class="card-title">{{post.title}}</h3>
                         <br>
                         <p class="card-text">{{post.text}}</p>
+                            </div>
+                        </div>
+                        
                     </div>
             </div>         
         </div>
@@ -51,30 +67,40 @@
                 <h5>Comments</h5>
                 
                 {% for comment in comments %}
-                <Strong>
-                    {{comment.user}}
-                </Strong><br>
-                <font size=1>{{comment.created_at}}</font><br>
-                    <div class="comment card">
-                        
-                        <div class="card-body">
-                            
-                            <p class="card-text">{{comment.text}}</p>
-                            
+                <div class="row">
+                    <div class="col-1">
+                        <div class="text-center d-flex flex-column align-items-center">
+                            <a class="btn" href="{% url 'post:more_rating' comment.pk %}" onclick="avaliar('up')">
+                                <i>+</i>
+                            </a>
+                            <span id="pontuacao" class="mx-2">{{comment.rating}}</span>
+                            <a class="btn" href="{% url 'post:less_rating' comment.pk %}" onclick="avaliar('down')">
+                                <i>-</i>
+                            </a>
                         </div>
                         
                     </div>
+                    <div class="col-11">
+                        <Strong>
+                            {{comment.user}}
+                        </Strong><br>
+                        <font size=1>{{comment.created_at}}</font><br>
+                            <div class="comment card">
+                                
+                                <div class="card-body">
+                                    
+                                    <p class="card-text">{{comment.text}}</p>
+                                    
+                                </div>
+                                
+                            </div>
+                
+                    </div>
+                </div>
+                
                     <br>
                     <div class="container mt-5">
-                        <div class="text-center">
-                          <a class="btn btn-success" href = "{% url 'post:more_rating' comment.pk %}" onclick="avaliar('up')">
-                            <i>+</i>
-                          </a>
-                          <span id="pontuacao" class="mx-2">{{comment.rating}}</span>
-                          <a class="btn btn-danger" href = "{% url 'post:less_rating' comment.pk %}" onclick="avaliar('down')">
-                            <i>-</i>
-                          </a>
-                        </div>
+                        
                       </div>
                     {% endfor %}
             </div>
