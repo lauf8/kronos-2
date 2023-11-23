@@ -1,12 +1,13 @@
 from django.urls import path
 
-from post.views import post, PostCreateView, PostView, more_rating, less_rating, less_rating_post, more_rating_post
+from post.views import (post, PostCreateView, PostView, more_rating, less_rating, less_rating_post,
+                         more_rating_post, PostListView)
 
 app_name = "post"
 
 
 urlpatterns = [
-    path('', post, name='post'),
+    path('', PostListView.as_view(), name='list_post'),
     path('<int:routine>/create', PostCreateView.as_view(), name='post_create'),
     path('<int:post>',PostView.as_view(), name='post'),    
     path('<int:comment_id>/more',more_rating, name ='more_rating'),

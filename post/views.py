@@ -11,7 +11,7 @@ from post.models import Post, Comment, RatingComment, RatingPost
 
 
 def post(request):
-    return render(request,'post/posts.html')
+    return render(request,'post/list_post.html')
 
 
 
@@ -158,3 +158,19 @@ def less_rating_post(request,post_id):
         return redirect('post:post', post.pk)
     else:
         return HttpResponse('You have already made your choice!')
+
+
+class PostListView(LoginRequiredMixin, generic.View):
+    login_url = "accounts:signin"
+    template_name = "post/list_post.html"
+
+    
+    def get(self, request):
+        posts = Post.objects.all().order_by('-rating')
+        context = {
+            'posts' : posts
+        }
+        
+        return render(request, self.template_name, context)
+
+    
