@@ -114,7 +114,8 @@ def more_rating(request,comment_id):
         comment.save()
         return redirect('post:post', comment.post.pk)
     else:
-        return HttpResponse('You have already made your choice!')
+        referer = request.META.get('HTTP_REFERER', '/')
+        return HttpResponseRedirect(referer)
 
 
 def less_rating(request,comment_id):
@@ -129,7 +130,8 @@ def less_rating(request,comment_id):
         comment.save()
         return redirect('post:post', comment.post.pk)
     else:
-        return HttpResponse('You have already made your choice!')
+        referer = request.META.get('HTTP_REFERER', '/')
+        return HttpResponseRedirect(referer)
 
 def more_rating_post(request,post_id):
     post = get_object_or_404(Post, pk = post_id)
@@ -143,7 +145,8 @@ def more_rating_post(request,post_id):
         post.save()
         return redirect('post:post', post.pk)
     else:
-        return HttpResponse('You have already made your choice!')
+        referer = request.META.get('HTTP_REFERER', '/')
+        return HttpResponseRedirect(referer)
 
 def less_rating_post(request,post_id):
     post = get_object_or_404(Post, pk = post_id)
@@ -157,7 +160,8 @@ def less_rating_post(request,post_id):
         post.save()
         return redirect('post:post', post.pk)
     else:
-        return HttpResponse('You have already made your choice!')
+        referer = request.META.get('HTTP_REFERER', '/')
+        return HttpResponseRedirect(referer)
 
 
 class PostListView(LoginRequiredMixin, generic.View):
