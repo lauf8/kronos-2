@@ -9,6 +9,8 @@ services:
       POSTGRES_PASSWORD: mypassword
     ports:
       - "5432:5432" #PASSAR VOLUME PARA PERSITENCIA DE DADOS
+    volumes:
+      - .:/code
   
   web:
     build: .
