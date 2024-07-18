@@ -65,10 +65,13 @@ class RoutineView(LoginRequiredMixin, generic.View):
 
     def post(self, request,routine, *args, **kwargs):
         forms = self.form_class(request.POST)
+        
         if forms.is_valid():
             form = forms.save(commit=False)
             form.user = request.user
             routine = get_object_or_404(Routine, pk=routine)
+            if routine.user != request.user:
+                return redirect('routineapp:routine',routine.pk)
             form.routine = routine
             form.save()
             return redirect('routineapp:routine',routine.pk)
