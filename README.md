@@ -17,26 +17,18 @@ Certifique-se de ter o Docker e o Docker Compose instalados na sua máquina.
 Passos para Instalação
 Clone este repositório:
 
-bash
-Copy code
 git clone https://github.com/lauf8/calendar-django
 cd kronos
 Execute o Docker Compose para iniciar os containers:
 
-bash
-Copy code
 docker-compose up -d
 Acesse o container do PostgreSQL e crie o banco de dados:
 
-bash
-Copy code
 docker exec -it <nome-do-container-postgres> psql -U postgres
 CREATE DATABASE kronos_db;
 \q
 Acesse o container do Django e execute as migrações e a coleta dos arquivos estáticos:
 
-bash
-Copy code
 docker exec -it <nome-do-container-django> /bin/bash
 python manage.py migrate
 python manage.py collectstatic
