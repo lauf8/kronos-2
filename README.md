@@ -1,36 +1,55 @@
-# Event Calendar in Django
+# Kronos
+Kronos é uma rede social de gestão de tempo desenvolvida como projeto de TCC. Esta aplicação permite criar rotinas e compartilhá-las com um grupo de pessoas, facilitando a organização e o gerenciamento do tempo.
 
-https://www.youtube.com/watch?v=HvnPeeLEVq0&t=0s
+# Tecnologias Utilizadas
+Linguagem de Programação: Python
+Framework Web: Django
+Banco de Dados: PostgreSQL
+Containerização: Docker, Docker Compose
+Funcionalidades Principais
+Criação de rotinas personalizadas
+Compartilhamento de rotinas com grupos de pessoas
+Interface amigável e intuitiva para gerenciamento de tempo
+Instruções de Instalação
+Pré-requisitos
+Certifique-se de ter o Docker e o Docker Compose instalados na sua máquina.
 
-# Demo
-![image](https://user-images.githubusercontent.com/39632170/123464377-88ec3600-d60e-11eb-8df6-88a138d23126.png)
+Passos para Instalação
+Clone este repositório:
 
+bash
+Copy code
+git clone https://github.com/lauf8/calendar-django
+cd kronos
+Execute o Docker Compose para iniciar os containers:
 
-## How To Setup
-```
-git clone https://github.com/sajib1066/event-calendar.git
-```
-```
-cd event-calendar
-```
-```
-python3 -m venv venv
-```
-```
-source venv/bin/activate
-```
-```
-pip install -r requirements.txt
-```
-```
-python manage.py makemigrations
-```
-```
+bash
+Copy code
+docker-compose up -d
+Acesse o container do PostgreSQL e crie o banco de dados:
+
+bash
+Copy code
+docker exec -it <nome-do-container-postgres> psql -U postgres
+CREATE DATABASE kronos_db;
+\q
+Acesse o container do Django e execute as migrações e a coleta dos arquivos estáticos:
+
+bash
+Copy code
+docker exec -it <nome-do-container-django> /bin/bash
 python manage.py migrate
-```
-```
-python manage.py createsuperuser
-```
-```
-python manage.py runserver
-```
+python manage.py collectstatic
+exit
+A aplicação estará disponível em http://localhost:8000.
+
+# Instruções de Uso
+Acesse a aplicação no navegador através do endereço http://localhost:8000.
+Crie uma conta e faça login.
+Navegue até a seção de rotinas para criar novas rotinas.
+Compartilhe suas rotinas com outras pessoas e gerencie seu tempo de forma eficiente.
+Contribuindo
+Contribuições são bem-vindas! Sinta-se à vontade para abrir issues e pull requests.
+
+Licença
+Este projeto está licenciado sob a MIT License.
