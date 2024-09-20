@@ -23,7 +23,7 @@ Passos para Instalação
 Clone este repositório:
 
 ```git
-git clone https://github.com/lauf8/calendar-django
+git clone https://github.com/lauf8/kronos-2
 ```
 ```bash
 cd kronos-2
