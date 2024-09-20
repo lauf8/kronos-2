@@ -29,39 +29,24 @@ git clone https://github.com/lauf8/calendar-django
 cd kronos
 ```
 
+Renomei o arquivo .env copy para suas preferências, como por exemplo
+
+```.env
+DEBUG=True
+SECRET_KEY=
+DB_NAME=project
+DB_USERNAME=user
+DB_PASS=password
+DB_PORT=5432
+DB_HOST=db
+```
+
 Execute o Docker Compose para iniciar os containers:
 
 ```dockerfile
 docker-compose up -d
 ```
 
-Acesse o container do PostgreSQL e crie o banco de dados:
-
-```dockerfile
-docker exec -it <nome-do-container-postgres> psql -U postgres
-```
-
-```postgresql
-psql -h localhost -p 5432 -U myuser -d mydatabase
-```
-Coloca a senha que foi definida.
-
-```postgresql
-CREATE DATABASE kronos;
-exit;
-```
-
-Acesse o container do Django e execute as migrações e a coleta dos arquivos estáticos:
-
-```dockerfile
-docker exec -it <nome-do-container-django> /bin/bash
-```
-
-```py
-python manage.py migrate
-python manage.py collectstatic
-exit
-```
 
 A aplicação estará disponível em http://localhost:8000.
 
