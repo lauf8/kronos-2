@@ -25,8 +25,8 @@ SECRET_KEY = "i8e1s3!_(fjsiv%1pn3sb3o=s)!p*nzwh1$gp5-l&%nb!d=y_s"
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-#DEBUG = False
-DEFAULT_AUTO_FIELD='django.db.models.AutoField' 
+# DEBUG = False
+DEFAULT_AUTO_FIELD = "django.db.models.AutoField"
 
 ALLOWED_HOSTS = ["*"]
 
@@ -90,17 +90,15 @@ WSGI_APPLICATION = "eventcalendar.wsgi.application"
 
 ##CONECTAR CON POSTGRES
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'kronos',              
-        'USER': 'myuser',               
-        'PASSWORD': 'mypassword',            
-        'HOST': 'db',                  
-        'PORT': '5432',                
-        
+    "default": {
+        "ENGINE": "django.db.backends.postgresql_psycopg2",
+        "NAME": os.getenv('DB_NAME'),
+        "USER": os.getenv('DB_USERNAME'),
+        "PASSWORD": os.getenv('DB_PASS'),
+        "HOST": os.getenv('DB_HOST'),
+        "PORT": os.getenv('DB_PORT'),
     }
 }
-
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
 
@@ -138,15 +136,12 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
 """
 
 
-STATIC_URL = '/static/'
+STATIC_URL = "/static/"
 STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 
 #
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media/') # 'data' is my media folder
-MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, "media/")  # 'data' is my media folder
+MEDIA_URL = "/media/"
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-
-
-
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"

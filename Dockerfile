@@ -1,7 +1,7 @@
 # Dockerfile for Django with Gunicorn and PostgreSQL
 
 # Use an official Python runtime as a parent image
-FROM python:3.9
+FROM python:3.11
 
 # Set environment variables
 ENV PYTHONDONTWRITEBYTECODE 1
@@ -27,6 +27,10 @@ COPY . /code/
 # Collect static files (if applicable)
 RUN python manage.py collectstatic --noinput
 
+COPY ./entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
+ENTRYPOINT ["/entrypoint.sh"]
 # Expose port 8000 (Gunicorn will serve on this port)
 EXPOSE 8000
 
