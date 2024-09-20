@@ -26,7 +26,7 @@ Clone este repositório:
 git clone https://github.com/lauf8/calendar-django
 ```
 ```bash
-cd kronos
+cd kronos-2
 ```
 
 Renomei o arquivo .env copy para suas preferências, como por exemplo
