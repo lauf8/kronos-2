@@ -44,7 +44,7 @@ DB_HOST=db
 Execute o Docker Compose para iniciar os containers:
 
 ```dockerfile
-docker-compose up -d
+docker-compose up --force-recreate 
 ```
 
 
